@@ -1,0 +1,40 @@
+.bank-holidays-table tbody tr td:nth-child(1) {
+    width: 50%;
+}
+
+.bank-holidays-table tbody tr td:nth-child(2) {
+    width: 25%;
+}
+
+.bank-holidays-table tbody tr td:nth-child(3) {
+    width: 25%;
+}
+
+@media (max-width: 768px) {
+
+    .table-collapse-phone tr,
+    td,
+    th {
+        display: block;
+    }
+
+    .table-collapse-phone thead {
+        display: none;
+    }
+
+    .bank-holidays-table tbody tr td:nth-child(1) {
+        width: 100%;
+    }
+
+    .bank-holidays-table tbody tr td:nth-child(2) {
+        width: 100%;
+    }
+
+    .bank-holidays-table tbody tr td:nth-child(3) {
+        width: 100%;
+    }
+}
+
+thead {
+    display: none;
+}
