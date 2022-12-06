@@ -1,10 +1,38 @@
 function Init() {
-    const xhttp = new XMLHttpRequest();
-    xhttp.onload = function () {
-        setBankHolidays(this.responseText);
+    var localStorageCacheInDays = 7;
+    var localStorageResult = getFromLocalWebStorage();
+
+    if (localStorageResult != null && dateDiff(new Date(localStorageResult.dateTimeStamp), new Date()) < localStorageCacheInDays) {
+        setBankHolidays(localStorageResult.value);
     }
-    xhttp.open("GET", "https://www.gov.uk/bank-holidays.json");
-    xhttp.send();
+    else {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onload = function () {
+            setBankHolidays(this.responseText);
+            saveInLocalWebStorage(this.responseText);
+        }
+        xhttp.open("GET", "https://www.gov.uk/bank-holidays.json");
+        xhttp.send();
+    }
+}
+
+function getFromLocalWebStorage() {
+    if (typeof (Storage) !== "undefined") {
+        return JSON.parse(localStorage.getItem("localBankHolidays"));
+    }
+    return null;
+}
+
+function saveInLocalWebStorage(responseText) {
+    var localStorageObject = {
+        value: responseText,
+        dateTimeStamp: new Date()
+    };
+    localStorage.setItem("localBankHolidays", JSON.stringify(localStorageObject));
+}
+
+function dateDiff(first, second) {
+    return Math.round((second - first) / (1000 * 60 * 60 * 24));
 }
 
 function createBankHolidaysTable(title, englandHols, condition) {
